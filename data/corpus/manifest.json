@@ -1,0 +1,11 @@
+{
+  "version": "2026-10-25.1",
+  "retrieval": "Exact selected substance/route/formulation filters and textual ranking. No embeddings generated.",
+  "attribution": "Agencia Española de Medicamentos y Productos Sanitarios (AEMPS), CIMA. España. Reproducción con origen y fecha de actualización: https://www.aemps.gob.es/aviso-legal/ . Sin logos ni respaldo institucional. Revisión documental, no clínica. No equivalencia con productos peruanos.",
+  "sources": [
+    { "id": "aemps-paracetamol-68330-p", "url": "https://cima.aemps.es/cima/dochtml/p/68330/P_68330.html", "title": "Prospecto Paracetamol Normon 500 mg comprimidos EFG", "issuer": "AEMPS/CIMA", "country": "España", "language": "es", "productId": "68330", "substanceId": "paracetamol", "routeCode": "oral", "formulationCode": "tablet", "strength": "500 mg", "sourceUpdatedAt": "2025-02", "cimaMetadataUpdatedAt": null, "reviewedAt": "2026-10-25T00:00:00Z", "reuseAllowed": true,
+      "chunks": [{ "id": "paracetamol-purpose", "section": "1. Qué es Paracetamol Normon y para qué se utiliza", "scope": "substance_route_formulation", "text": "Paracetamol pertenece a un grupo de medicamentos denominados analgésicos y antipiréticos." }] },
+    { "id": "aemps-ibuprofen-65250-p", "url": "https://cima.aemps.es/cima/dochtml/p/65250/P_65250.html", "title": "Prospecto Ibuprofeno Normon 400 mg comprimidos recubiertos con película EFG", "issuer": "AEMPS/CIMA", "country": "España", "language": "es", "productId": "65250", "substanceId": "ibuprofen", "routeCode": "oral", "formulationCode": "tablet", "strength": "400 mg", "sourceUpdatedAt": "2024-11", "cimaMetadataUpdatedAt": null, "reviewedAt": "2026-10-25T00:00:00Z", "reuseAllowed": true,
+      "chunks": [{ "id": "ibuprofen-purpose", "section": "1. Qué es Ibuprofeno Normon y para qué se utiliza", "scope": "substance_route_formulation", "text": "Ibuprofeno pertenece al grupo de medicamentos llamados antiinflamatorios no esteroideos (AINEs)." }] }
+  ]
+}

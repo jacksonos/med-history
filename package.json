@@ -1,0 +1,40 @@
+{
+  "name": "my-med-history-prototypes",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "workspaces": ["apps/*", "packages/*"],
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "build:contracts": "npm run build --workspace @mmh/contracts",
+    "build:app": "npm run build:contracts && npm run build --workspace @mmh/api && npm run build --workspace @mmh/web",
+    "dev:api": "npm run build:contracts && npm run dev --workspace @mmh/api",
+    "dev:web": "npm run build:contracts && npm run dev --workspace @mmh/web",
+    "test:contracts": "npm run test --workspace @mmh/contracts",
+    "test:api": "npm run test --workspace @mmh/api",
+    "test:web": "npm run test --workspace @mmh/web",
+    "test:app": "npm run build:contracts && npm run test:contracts && npm run test:api && npm run test:web",
+    "typecheck": "npm run build:contracts && npm run typecheck --workspaces --if-present",
+    "test:e2e": "npm run build:contracts && playwright test"
+  },
+  "dependencies": {
+    "clsx": "^2.1.1",
+    "lucide-react": "^1.16.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "tailwind-merge": "^3.0.2"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.64.1",
+    "@types/react": "^19.0.10",
+    "@types/react-dom": "^19.0.4",
+    "@vitejs/plugin-react": "^5.0.0",
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.5.3",
+    "tailwindcss": "^3.4.17",
+    "typescript": "^5.8.2",
+    "vite": "^6.2.0"
+  }
+}

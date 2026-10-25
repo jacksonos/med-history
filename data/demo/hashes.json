@@ -1,0 +1,26 @@
+[
+  {
+    "id": "DEMO-01",
+    "version": 1,
+    "treatmentId": "11111111-1111-4111-8111-111111111111",
+    "snapshotHash": "b097745bebc32a59b682cbe0a7985e49bf477be229633a660b1e3c67d5dc82db",
+    "documentTextHash": "73a14bc4aa9ac2865dff53d1a49f6ddcbe4cf9bee7cfcb800d4d3fc3d2ac0f42",
+    "pdfSha256": "a824c23494a7083ab7026204f40b65d4869d1fdf479530add228fcac64cd200b"
+  },
+  {
+    "id": "DEMO-02",
+    "version": 1,
+    "treatmentId": "22222222-2222-4222-8222-222222222222",
+    "snapshotHash": "8a798a9f0374eb449533c1e69c48aa5a63885726a5aea66cb6c2d8da895ab942",
+    "documentTextHash": "daa840d9bd5e0009b8f5ec891061c6cc9ad04438bf2a900541a19236d1fff7ea",
+    "pdfSha256": "6727023d12e53ceaa2f7f93934a88ffd8695bcff1ea422ede99e740436cc4daa"
+  },
+  {
+    "id": "DEMO-03",
+    "version": 1,
+    "treatmentId": "33333333-3333-4333-8333-333333333333",
+    "snapshotHash": "fcf9bd2066fbcd7fbbc451ac25d49e41b7361e2d12dd4bac0a2d1c4e079f9b46",
+    "documentTextHash": "73a14bc4aa9ac2865dff53d1a49f6ddcbe4cf9bee7cfcb800d4d3fc3d2ac0f42",
+    "pdfSha256": "a824c23494a7083ab7026204f40b65d4869d1fdf479530add228fcac64cd200b"
+  }
+]

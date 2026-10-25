@@ -1,0 +1,114 @@
+name: my-med-history
+services:
+  db:
+    image: pgvector/pgvector:0.8.7-pg17
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-my_med_history}
+      POSTGRES_USER: ${POSTGRES_USER:-mmh}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-local-demo-only}
+    volumes:
+      - database:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 5s
+      timeout: 5s
+      retries: 15
+    restart: unless-stopped
+    mem_limit: 768m
+
+  documents:
+    image: my-med-history-documents:local
+    build:
+      context: ./services/documents
+    environment:
+      MODELS_DIR: /models
+      PADDLE_HOME: /tmp/paddle
+      PADDLE_PDX_CACHE_HOME: /tmp/paddlex
+      PYTHONDONTWRITEBYTECODE: "1"
+    volumes:
+      - document_models:/models:ro
+    networks: [documents]
+    tmpfs:
+      - /tmp:size=268435456,uid=10001,gid=10001,mode=0700
+    read_only: true
+    security_opt:
+      - no-new-privileges:true
+    cap_drop: [ALL]
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health/live', timeout=3)"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+    restart: unless-stopped
+    mem_limit: 2g
+    cpus: 2
+    pids_limit: 128
+
+  prepare-ocr:
+    profiles: [tools]
+    image: my-med-history-documents:local
+    build:
+      context: ./services/documents
+    command: ["python", "scripts/prepare_models.py", "--download", "--output", "/models"]
+    volumes:
+      - document_models:/models
+    security_opt:
+      - no-new-privileges:true
+    cap_drop: [ALL]
+    mem_limit: 768m
+
+  api:
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile
+    environment:
+      NODE_ENV: production
+      PORT: "3000"
+      DATABASE_URL: postgres://${POSTGRES_USER:-mmh}:${POSTGRES_PASSWORD:-local-demo-only}@db:5432/${POSTGRES_DB:-my_med_history}
+      DOCUMENT_SERVICE_URL: http://documents:8000
+      STORAGE_DIR: /data/originals
+      AI_MODE: ${AI_MODE:-demo}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      OPENAI_MODEL: ${OPENAI_MODEL:-gpt-5.4-mini-2026-03-17}
+      EMBEDDING_MODEL: ${EMBEDDING_MODEL:-text-embedding-3-small}
+      LOCAL_ORIGIN: ${LOCAL_ORIGIN:-http://localhost:8080}
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - originals:/data/originals
+    networks: [default, documents]
+    security_opt:
+      - no-new-privileges:true
+    cap_drop: [ALL]
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3000/api/v1/health',{headers:{Host:'localhost:8080'}}).then(r=>{if(!r.ok)process.exit(1)}).catch(()=>process.exit(1))"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+    restart: unless-stopped
+    mem_limit: 768m
+
+  web:
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile
+    depends_on:
+      api:
+        condition: service_healthy
+    ports:
+      - "127.0.0.1:8080:80"
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+    mem_limit: 128m
+
+volumes:
+  database:
+  originals:
+  document_models:
+
+networks:
+  documents:
+    internal: true

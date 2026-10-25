@@ -1,0 +1,17 @@
+{
+  "schemaVersion": "1",
+  "documentId": "a807c38d-6489-4f30-b230-4fd1005e35ca",
+  "generation": 1,
+  "method": "native",
+  "pages": 1,
+  "text": "Documento ficticio de prueba. Indicaciones impresas para revision humana.",
+  "blocks": [
+    {
+      "page": 1,
+      "text": "Documento ficticio de prueba. Indicaciones impresas para revision humana.",
+      "box": null,
+      "score": null
+    }
+  ],
+  "warnings": ["OCR_REQUIRES_HUMAN_REVIEW", "PDF_IMAGE_ANNOTATIONS_NOT_COVERED"]
+}
