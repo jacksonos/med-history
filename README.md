@@ -22,7 +22,13 @@ docker compose up --build
 
 En Linux/macOS, sustituye la primera línea por `cp .env.example .env`.
 
-Abre **http://localhost:8080**. Solo ese puerto se publica, limitado al equipo local; PostgreSQL, API y OCR permanecen en la red de Compose.
+Abre **http://localhost:8080**. La primera vez la base de datos está vacía; carga el catálogo y los tres casos demo con:
+
+```powershell
+docker compose exec api node apps/api/dist/maintenance.js migrate
+docker compose exec api node apps/api/dist/maintenance.js corpus
+docker compose exec api node apps/api/dist/maintenance.js demo
+```
 
 `AI_MODE=demo` es el modo predeterminado. No requiere una API key y no debe generar consumo de IA. Que una key esté presente no cambia automáticamente al modo live.
 

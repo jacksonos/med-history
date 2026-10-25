@@ -66,7 +66,7 @@ services:
       PORT: "3000"
       DATABASE_URL: postgres://${POSTGRES_USER:-mmh}:${POSTGRES_PASSWORD:-local-demo-only}@db:5432/${POSTGRES_DB:-my_med_history}
       DOCUMENT_SERVICE_URL: http://documents:8000
-      STORAGE_DIR: /data/originals
+      STORAGE_DIR: /var/lib/mmh/originals
       AI_MODE: ${AI_MODE:-demo}
       OPENAI_API_KEY: ${OPENAI_API_KEY:-}
       OPENAI_MODEL: ${OPENAI_MODEL:-gpt-5.4-mini-2026-03-17}
@@ -76,13 +76,13 @@ services:
       db:
         condition: service_healthy
     volumes:
-      - originals:/data/originals
+      - originals:/var/lib/mmh/originals
     networks: [default, documents]
     security_opt:
       - no-new-privileges:true
     cap_drop: [ALL]
     healthcheck:
-      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3000/api/v1/health',{headers:{Host:'localhost:8080'}}).then(r=>{if(!r.ok)process.exit(1)}).catch(()=>process.exit(1))"]
+      test: ["CMD", "node", "-e", "require('http').request({host:'127.0.0.1',port:3000,path:'/api/v1/health',headers:{Host:'localhost:8080'}},r=>process.exit(r.statusCode===200?0:1)).on('error',()=>process.exit(1)).end()"]
       interval: 10s
       timeout: 5s
       retries: 10

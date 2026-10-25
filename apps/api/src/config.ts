@@ -10,7 +10,7 @@ export function configuration(env: NodeJS.ProcessEnv = process.env) {
     NODE_ENV: z.enum(['development', 'test', 'production']).default('development'),
     LOCAL_ORIGIN: z.string().url().optional(),
   }).parse(env);
-  if (config.LOCAL_ORIGIN && !['http://localhost:5174', 'http://127.0.0.1:5174'].includes(config.LOCAL_ORIGIN)) throw new Error('LOCAL_ORIGIN debe ser un origen Vite local permitido.');
+  if (config.LOCAL_ORIGIN && !['http://localhost:5174', 'http://127.0.0.1:5174', 'http://localhost:8080', 'http://127.0.0.1:8080'].includes(config.LOCAL_ORIGIN)) throw new Error('LOCAL_ORIGIN debe ser un origen local permitido.');
   if (config.AI_MODE === 'live' && (config.OPENAI_MODEL !== 'gpt-5.4-mini-2026-03-17' || config.EMBEDDING_MODEL !== 'text-embedding-3-small')) throw new Error('Modelo sin calibración de presupuesto.');
   return config;
 }

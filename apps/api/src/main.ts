@@ -41,6 +41,7 @@ export class Runtime {
 @Catch()
 class Errors implements ExceptionFilter {
   catch(error:any,host:ArgumentsHost) {
+    if(!(error instanceof ZodError)) console.error('UNHANDLED_API_ERROR',error);
     const response=host.switchToHttp().getResponse<Response>();
     const known=error instanceof ApiFailure;
     const tooLarge=error?.code==='LIMIT_FILE_SIZE' || error?.type==='entity.too.large';
@@ -107,4 +108,4 @@ export async function bootstrap() {
   const close=async()=> {await app.close();await runtime.close();}; process.once('SIGTERM',()=>void close());process.once('SIGINT',()=>void close());
   return app;
 }
-if(process.argv[1] && import.meta.url===pathToFileURL(process.argv[1]).href) void bootstrap().catch(()=>{console.error('API_STARTUP_FAILED');process.exitCode=1;});
+if(process.argv[1] && import.meta.url===pathToFileURL(process.argv[1]).href) void bootstrap().catch((error)=>{console.error('API_STARTUP_FAILED',error);process.exitCode=1;});
